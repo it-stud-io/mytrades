@@ -1,0 +1,36 @@
+#! /usr/bin/python3
+
+# import
+import sys
+import mytrades as mt
+import datetime as dt
+
+def main(depot_file, tx_file):
+    # read and print transactions 
+    depot = mt.read_matrix(depot_file)
+    transactions = mt.read_matrix(tx_file)
+    print("Your depot contains following transactions:")
+    print("")
+    print("{:10s}{:15s}{:30s}".format("Symbol", "ISIN", "Name"))
+    print("{:10s}{:45s}{:>15s}{:>15s}{:>15s}".format(" ", "Timestamp", "Units", "UnitPrice", "Fees"))
+    x = 0
+    for item in depot:
+        x = x + 1
+        print("{:10s}{:15s}{:30s}".format(item[0], item[1], item[2]))
+        for tx in transactions:
+            x = x + 1
+            if (item[0] == tx[0]):
+                dta = mt.get_datetime_array(tx[1])
+                tx_date = dt.datetime(int(dta[0]),int(dta[1]),int(dta[2]),int(dta[3]),int(dta[4]),int(dta[5]))
+                print("{:10s}{:45s}{:15.2f}{:15.2f}{:15.2f}".format(" ", tx_date.strftime("%c"), float(tx[2]), float(tx[3]), float(tx[4])))
+                if (x == 20):
+                    input("--- NEXT PAGE ---")
+                    x = 0
+            if (x == 20):
+                input("--- NEXT PAGE ---")
+                x = 0
+        print("")
+    print("")
+    input("Continue with ENTER.")
+    
+main(sys.argv[1], sys.argv[2])

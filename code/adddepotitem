@@ -1,0 +1,28 @@
+#! /usr/bin/python3
+
+# import
+import sys
+import mytrades as mt
+
+def main(depot_file):
+    depot = mt.read_matrix(depot_file)
+    ticker = mt.get_yahoo_ticker()
+    if (ticker != None):
+        answer = input("Do you want to add {} - {} to your Depot? ".format(ticker.symbol, ticker.name))
+        if (answer in ["Y","y","J","j"]):
+            if (not mt.symbol_exists(ticker.symbol, depot)):
+                # add item to data file
+                depot.append([ticker.symbol, ticker.isin, ticker.name])
+                mt.write_matrix(depot, depot_file)
+                print("Item added.")
+            else:
+                print("Symbol already exists.")
+        else:
+            print("Item not added.")
+    else:
+        print("Symbol not found.")
+    print("")
+    print("")
+    input("Continue with ENTER.")
+
+main(sys.argv[1])

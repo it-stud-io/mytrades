@@ -1,0 +1,35 @@
+#! /usr/bin/python3
+
+# import
+import sys
+import mytrades as mt
+import datetime as dt
+
+def main(depot_file, tx_file):
+    depot = mt.read_matrix(depot_file)
+    txs = mt.read_matrix(tx_file)
+    ticker = mt.get_yahoo_ticker()
+    if (ticker != None):
+        answer = input("Do you want to add a transaction for {} - {}? ".format(ticker.symbol, ticker.name))
+        if (answer in ["Y","y","J","j"]):
+            if (mt.symbol_exists(ticker.symbol, depot)):
+                # add tx to data file
+                tx_date_str = input("Timestamp (YYYY-MM-DD HH:MM): ")
+                tx_date_arr = mt.get_datetime_array(str(tx_date_str) + ":00")
+                tx_units = input("Units: ")
+                tx_unitprice = input("UnitPrice (EUR): ")
+                tx_fees = input("Fees (EUR): ")
+                txs.append([ticker.symbol, str(dt.datetime(int(tx_date_arr[0]), int(tx_date_arr[1]), int(tx_date_arr[2]), int(tx_date_arr[3]), int(tx_date_arr[4]), int(tx_date_arr[5]))), str(tx_units), str(tx_unitprice), str(tx_fees)])
+                mt.write_matrix(txs, tx_file)
+                print("Transaction added.")
+            else:
+                print("Symbol does not exist in your Depot.")
+        else:
+            print("No transaction added.")
+    else:
+        print("Symbol not found.")
+    print("")
+    print("")
+    input("Continue with ENTER.")
+
+main(sys.argv[1], sys.argv[2])

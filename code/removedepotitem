@@ -1,0 +1,29 @@
+#! /usr/bin/python3
+
+# import
+import sys
+import mytrades as mt
+
+def main(depot_file):
+    depot = mt.read_matrix(depot_file)
+    ticker = mt.get_yahoo_ticker()
+    if (ticker != None):
+        answer = input("Do you want to remove {} - {} from your Depot? ".format(ticker.symbol, ticker.name))
+        if (answer in ["Y","y","J","j"]):
+            if (mt.symbol_exists(ticker.symbol, depot)):
+                depot_upd = []
+                for item in depot:
+                    if (ticker.symbol != item[0]):
+                        depot_upd.append(item)
+                mt.write_matrix(depot_upd, depot_file)
+                print("Item removed.")
+            else:
+                print("Item not found in your Depot.")
+        else:
+            print("Action cancelled.")
+    else:
+        print("Symbol not found.")
+    print("")
+    input("Continue with ENTER.")
+
+main(sys.argv[1])

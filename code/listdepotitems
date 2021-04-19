@@ -1,0 +1,23 @@
+#! /usr/bin/python3
+
+# import
+import sys
+import mytrades as mt
+
+def main(depot_file):
+    # read and print depot 
+    depot = mt.read_matrix(depot_file)
+    print("Your depot contains following items:")
+    print("")
+    print("{:10s}{:15s}{:30s}".format("Symbol", "ISIN", "Name"))
+    x = 0
+    for item in depot:
+        x = x + 1
+        print("{:10s}{:15s}{:30s}".format(item[0], item[1], item[2]))
+        if (x == 30):
+            input("--- NEXT PAGE ---")
+            x = 0
+    print("")
+    input("Continue with ENTER.")
+    
+main(sys.argv[1])

@@ -1,0 +1,37 @@
+#! /usr/bin/python3
+
+# import
+from consolemenu import *
+from consolemenu.items import *
+
+def main():
+    # data files
+    depot_file = "./data/depot.txt"
+    tx_file = "./data/transactions.txt"
+
+    # menu
+    # submenu depot
+    submenu_depot = ConsoleMenu("MyTrades", "Depot")
+    list_depot_items = CommandItem("List Items",  "./code/listdepotitems", [depot_file])
+    add_depot_item = CommandItem("Add Item", "./code/adddepotitem", [depot_file])
+    remove_depot_item = CommandItem("Remove Item", "./code/removedepotitem", [depot_file])
+    submenu_depot.append_item(list_depot_items)
+    submenu_depot.append_item(add_depot_item)
+    submenu_depot.append_item(remove_depot_item)
+    
+    # submenu transaction
+    submenu_transactions = ConsoleMenu("MyTrades", "Transactions")
+    list_transactions = CommandItem("List Transactions",  "./code/listtransactions", [depot_file, tx_file])
+    add_transaction = CommandItem("Add Transaction", "./code/addtransaction", [depot_file, tx_file])
+    submenu_transactions.append_item(list_transactions)
+    submenu_transactions.append_item(add_transaction)
+
+    # main menu
+    menu = ConsoleMenu("MyTrades", "Main Menu")
+    sub1 = SubmenuItem("Depot", submenu_depot, menu)
+    sub2 = SubmenuItem("Transactions", submenu_transactions, menu)
+    menu.append_item(sub1)
+    menu.append_item(sub2)
+    menu.show()
+
+main()

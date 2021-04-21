@@ -6,8 +6,8 @@ from consolemenu.items import *
 
 def main():
     # data files
-    depot_file = "./data/depot.txt"
-    tx_file = "./data/transactions.txt"
+    depot_file = "./data/depot.dat"
+    tx_file = "./data/transactions.dat"
 
     # menu
     # submenu depot
